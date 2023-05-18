@@ -203,7 +203,7 @@ QPushButton:pressed{
               <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="pushButton_sup">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -222,7 +222,7 @@ QPushButton:pressed{
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="pushButton_app">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -241,7 +241,7 @@ QPushButton:pressed{
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="pushButton_buy">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -260,7 +260,7 @@ QPushButton:pressed{
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_4">
+              <widget class="QPushButton" name="pushButton_doc">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -279,7 +279,7 @@ QPushButton:pressed{
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_5">
+              <widget class="QPushButton" name="pushButton_anly">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -298,7 +298,7 @@ QPushButton:pressed{
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_6">
+              <widget class="QPushButton" name="pushButton_exit">
                <property name="minimumSize">
                 <size>
                  <width>0</width>
@@ -339,38 +339,436 @@ QPushButton:pressed{
                <property name="styleSheet">
                 <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
                </property>
-               <property name="currentIndex">
-                <number>1</number>
-               </property>
-               <widget class="QWidget" name="page_info">
-                <layout class="QVBoxLayout" name="verticalLayout_5"/>
+               <widget class="QWidget" name="page_sup">
+                <widget class="QTableWidget" name="tableWidget_sup">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>40</y>
+                   <width>901</width>
+                   <height>541</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>150</number>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>供应商</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>供货</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>采购员</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>操作</string>
+                  </property>
+                 </column>
+                </widget>
+                <widget class="QPushButton" name="pushButton_supAdd">
+                 <property name="geometry">
+                  <rect>
+                   <x>20</x>
+                   <y>0</y>
+                   <width>93</width>
+                   <height>28</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 170, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	font: 12pt &quot;楷体&quot;;
+	border:none;
+	border-radius:7px;
+	color: rgb(0, 0, 0);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>添加</string>
+                 </property>
+                </widget>
+                <widget class="QPushButton" name="pushButton_supFind">
+                 <property name="geometry">
+                  <rect>
+                   <x>130</x>
+                   <y>0</y>
+                   <width>93</width>
+                   <height>28</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	font: 12pt &quot;楷体&quot;;
+	border:none;
+	border-radius:7px;
+	color: rgb(0, 0, 0);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>查找</string>
+                 </property>
+                </widget>
                </widget>
-               <widget class="QWidget" name="page_img">
-                <layout class="QVBoxLayout" name="verticalLayout_6">
-                 <item alignment="Qt::AlignHCenter">
-                  <widget class="QLabel" name="label_2">
-                   <property name="minimumSize">
-                    <size>
-                     <width>620</width>
-                     <height>340</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>620</width>
-                     <height>340</height>
-                    </size>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">border-image: url(:/images/images/imgInter.jpg);
-border-radius:25px;</string>
-                   </property>
-                   <property name="text">
-                    <string/>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+               <widget class="QWidget" name="page_app">
+                <widget class="QPushButton" name="pushButton_appAdd">
+                 <property name="geometry">
+                  <rect>
+                   <x>20</x>
+                   <y>0</y>
+                   <width>93</width>
+                   <height>28</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 170, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	font: 12pt &quot;楷体&quot;;
+	border:none;
+	border-radius:7px;
+	color: rgb(0, 0, 0);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>添加</string>
+                 </property>
+                </widget>
+                <widget class="QTableWidget" name="tableWidget_app">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>40</y>
+                   <width>901</width>
+                   <height>541</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>150</number>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>供应商</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>供货</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>数量</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>采购员</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>申请日期</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>状态</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>操作</string>
+                  </property>
+                 </column>
+                </widget>
+                <widget class="QPushButton" name="pushButton_appFind">
+                 <property name="geometry">
+                  <rect>
+                   <x>130</x>
+                   <y>0</y>
+                   <width>93</width>
+                   <height>28</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	font: 12pt &quot;楷体&quot;;
+	border:none;
+	border-radius:7px;
+	color: rgb(0, 0, 0);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>查找</string>
+                 </property>
+                </widget>
+               </widget>
+               <widget class="QWidget" name="page_buy">
+                <widget class="QTableWidget" name="tableWidget_buy">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>40</y>
+                   <width>901</width>
+                   <height>541</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>150</number>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>供应商</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>货物</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>接货员</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>审核日期</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>状态</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>操作</string>
+                  </property>
+                 </column>
+                </widget>
+                <widget class="QPushButton" name="pushButton_appFind_2">
+                 <property name="geometry">
+                  <rect>
+                   <x>30</x>
+                   <y>0</y>
+                   <width>93</width>
+                   <height>28</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	font: 12pt &quot;楷体&quot;;
+	border:none;
+	border-radius:7px;
+	color: rgb(0, 0, 0);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>查找</string>
+                 </property>
+                </widget>
+               </widget>
+               <widget class="QWidget" name="page_anly">
+                <widget class="QTableWidget" name="tableWidget_anly">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>40</y>
+                   <width>901</width>
+                   <height>541</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>150</number>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>供应商</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>货物</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>采购数量</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>采购员</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>接货员</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>操作</string>
+                  </property>
+                 </column>
+                </widget>
+                <widget class="QPushButton" name="pushButton_anlyFind">
+                 <property name="geometry">
+                  <rect>
+                   <x>30</x>
+                   <y>0</y>
+                   <width>93</width>
+                   <height>28</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	font: 12pt &quot;楷体&quot;;
+	border:none;
+	border-radius:7px;
+	color: rgb(0, 0, 0);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>查找</string>
+                 </property>
+                </widget>
+               </widget>
+               <widget class="QWidget" name="page_doc">
+                <widget class="QTableWidget" name="tableWidget_doc">
+                 <property name="geometry">
+                  <rect>
+                   <x>0</x>
+                   <y>40</y>
+                   <width>901</width>
+                   <height>541</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                 <attribute name="horizontalHeaderDefaultSectionSize">
+                  <number>150</number>
+                 </attribute>
+                 <attribute name="verticalHeaderVisible">
+                  <bool>false</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>货物</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>供应商数量</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>操作</string>
+                  </property>
+                 </column>
+                </widget>
+                <widget class="QPushButton" name="pushButton_docFind">
+                 <property name="geometry">
+                  <rect>
+                   <x>30</x>
+                   <y>0</y>
+                   <width>93</width>
+                   <height>28</height>
+                  </rect>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 0, 255), stop:1 rgba(255, 255, 255, 255));
+	font: 12pt &quot;楷体&quot;;
+	border:none;
+	border-radius:7px;
+	color: rgb(0, 0, 0);
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>查找</string>
+                 </property>
+                </widget>
                </widget>
               </widget>
              </item>
