@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QHeaderView
 
 
 class Ui_MainWindow(object):
@@ -173,9 +174,11 @@ class Ui_MainWindow(object):
         self.tableWidget_sup = QtWidgets.QTableWidget(self.page_sup)
         self.tableWidget_sup.setGeometry(QtCore.QRect(0, 40, 901, 541))
         self.tableWidget_sup.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+        self.tableWidget_sup.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.tableWidget_sup.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget_sup.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget_sup.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tableWidget_sup.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
         self.tableWidget_sup.setObjectName("tableWidget_sup")
         self.tableWidget_sup.setColumnCount(4)
         self.tableWidget_sup.setRowCount(0)
@@ -225,8 +228,10 @@ class Ui_MainWindow(object):
         self.tableWidget_app = QtWidgets.QTableWidget(self.page_app)
         self.tableWidget_app.setGeometry(QtCore.QRect(0, 40, 901, 541))
         self.tableWidget_app.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+        self.tableWidget_app.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.tableWidget_app.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget_app.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tableWidget_app.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
         self.tableWidget_app.setObjectName("tableWidget_app")
         self.tableWidget_app.setColumnCount(7)
         self.tableWidget_app.setRowCount(0)
@@ -262,9 +267,11 @@ class Ui_MainWindow(object):
         self.tableWidget_buy = QtWidgets.QTableWidget(self.page_buy)
         self.tableWidget_buy.setGeometry(QtCore.QRect(0, 40, 901, 541))
         self.tableWidget_buy.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+        self.tableWidget_buy.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.tableWidget_buy.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget_buy.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget_buy.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tableWidget_buy.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
         self.tableWidget_buy.setObjectName("tableWidget_buy")
         self.tableWidget_buy.setColumnCount(6)
         self.tableWidget_buy.setRowCount(0)
@@ -298,9 +305,11 @@ class Ui_MainWindow(object):
         self.tableWidget_anly = QtWidgets.QTableWidget(self.page_anly)
         self.tableWidget_anly.setGeometry(QtCore.QRect(0, 40, 901, 541))
         self.tableWidget_anly.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+        self.tableWidget_anly.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.tableWidget_anly.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget_anly.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget_anly.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tableWidget_anly.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
         self.tableWidget_anly.setObjectName("tableWidget_anly")
         self.tableWidget_anly.setColumnCount(6)
         self.tableWidget_anly.setRowCount(0)
@@ -334,9 +343,11 @@ class Ui_MainWindow(object):
         self.tableWidget_doc = QtWidgets.QTableWidget(self.page_doc)
         self.tableWidget_doc.setGeometry(QtCore.QRect(0, 40, 901, 541))
         self.tableWidget_doc.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+        self.tableWidget_doc.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.tableWidget_doc.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.tableWidget_doc.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.tableWidget_doc.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tableWidget_doc.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
         self.tableWidget_doc.setObjectName("tableWidget_doc")
         self.tableWidget_doc.setColumnCount(3)
         self.tableWidget_doc.setRowCount(0)
@@ -366,6 +377,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+        self.stackedWidget.setCurrentIndex(0)
         self.pushButton_close.clicked.connect(MainWindow.close) # type: ignore
         self.pushButton_minisize.clicked.connect(MainWindow.showMinimized) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)

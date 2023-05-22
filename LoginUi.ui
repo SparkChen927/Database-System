@@ -365,6 +365,18 @@ background-color: rgba(0, 0, 0, 0);</string>
    <zorder>frame</zorder>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>lineEdit_u</tabstop>
+  <tabstop>lineEdit_p</tabstop>
+  <tabstop>pushButton_in</tabstop>
+  <tabstop>pushButton_up</tabstop>
+  <tabstop>lineEdit_u2</tabstop>
+  <tabstop>lineEdit_p2</tabstop>
+  <tabstop>pushButton_u</tabstop>
+  <tabstop>pushButton_r</tabstop>
+ </tabstops>
  <resources>
   <include location="res.qrc"/>
  </resources>

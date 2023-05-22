@@ -2,6 +2,16 @@ from InterfaceUi import *
 from LoginUi import *
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 import sys
+import pymysql
+
+# db = pymysql.connect(
+#     host='localhost',
+#     port=3306,
+#     user="root",
+#     password='',
+#     database='purchase',
+#     charset='utf8'
+# )
 
 
 class LoginWindow(QMainWindow):
@@ -72,9 +82,29 @@ class InterfaceWindow(QMainWindow):
         if self.isMaximized():
             self.showNormal()
             self.ui.pushButton_maxsize.setIcon(QtGui.QIcon(":/icons/icons/maxmize.png"))
+            self.ui.tableWidget_sup.horizontalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_sup.verticalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_app.horizontalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_app.verticalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_buy.horizontalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_buy.verticalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_doc.horizontalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_doc.verticalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_anly.horizontalHeader().setStretchLastSection(False)
+            self.ui.tableWidget_anly.verticalHeader().setStretchLastSection(False)
         else:
             self.showMaximized()
             self.ui.pushButton_maxsize.setIcon(QtGui.QIcon(":/icons/icons/minisize.png"))
+            self.ui.tableWidget_sup.horizontalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_sup.verticalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_app.horizontalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_app.verticalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_buy.horizontalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_buy.verticalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_doc.horizontalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_doc.verticalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_anly.horizontalHeader().setStretchLastSection(True)
+            self.ui.tableWidget_anly.verticalHeader().setStretchLastSection(True)
 
     def mousePressEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton and self.isMaximized() == False:
@@ -97,4 +127,3 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = LoginWindow()
     sys.exit(app.exec_())
-

@@ -190,6 +190,15 @@ class Ui_LoginWindow(object):
         self.pushButton_3.clicked.connect(LoginWindow.close) # type: ignore
         self.pushButton_2.clicked.connect(LoginWindow.showMinimized) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(LoginWindow)
+        LoginWindow.setTabOrder(self.pushButton_2, self.pushButton_3)
+        LoginWindow.setTabOrder(self.pushButton_3, self.lineEdit_u)
+        LoginWindow.setTabOrder(self.lineEdit_u, self.lineEdit_p)
+        LoginWindow.setTabOrder(self.lineEdit_p, self.pushButton_in)
+        LoginWindow.setTabOrder(self.pushButton_in, self.pushButton_up)
+        LoginWindow.setTabOrder(self.pushButton_up, self.lineEdit_u2)
+        LoginWindow.setTabOrder(self.lineEdit_u2, self.lineEdit_p2)
+        LoginWindow.setTabOrder(self.lineEdit_p2, self.pushButton_u)
+        LoginWindow.setTabOrder(self.pushButton_u, self.pushButton_r)
 
     def retranslateUi(self, LoginWindow):
         _translate = QtCore.QCoreApplication.translate
