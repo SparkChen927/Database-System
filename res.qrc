@@ -1,5 +1,7 @@
 <RCC>
-  <qresource prefix="images"/>
+  <qresource prefix="images">
+    <file>images/loginBack.jpg</file>
+  </qresource>
   <qresource prefix="icons">
     <file>icons/close.png</file>
     <file>icons/maxmize.png</file>
