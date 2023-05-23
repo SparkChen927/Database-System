@@ -1,7 +1,7 @@
 create database purchase;
 use purchase;
 create table suppliers(
-    sno int primary key unique comment '供应商号',
+    sno varchar(10) primary key unique comment '供应商号',
     sname varchar(20) comment '供应商名',
     type varchar(8) comment '类别',
     address varchar(50) comment '联系地址',
@@ -12,17 +12,33 @@ create table suppliers(
     check ( credit in ('A', 'B', 'C') )
 ) comment '供应商';
 
+insert into suppliers values ('01', '星际和平公司', '优先', '上海', '转账', 'A');
+insert into suppliers values ('02', '雅利洛', '消极淘汰', '贝洛伯格', '转账', 'B');
+insert into suppliers values ('03', '仙舟', '考察', '罗浮', '转账', 'B');
+insert into suppliers values ('04', '星穹列车', '优先', '', '现金', 'A');
+insert into suppliers values ('05', '愚人众', '积极淘汰', '俄罗斯', '转账', 'C');
+
 create table goods(
-    gno int primary key unique comment '货物编号',
+    gno varchar(10) primary key unique comment '货物编号',
     gname varchar(20) comment '货物名',
-    price int comment '单价',
-    sno int comment '供应商号',
+    price float comment '单价',
+    sno varchar(10) comment '供应商号',
     foreign key (sno) references suppliers (sno)
 ) comment '货物';
 
+insert into goods values ('01', '星琼', 5, '01');
+insert into goods values ('02', '星琼', 10, '02');
+insert into goods values ('03', '星琼', 7, '03');
+insert into goods values ('04', '星琼', 6, '04');
+insert into goods values ('05', '棒球棒', 80, '01');
+insert into goods values ('06', '棒球棒', 60, '04');
+insert into goods values ('07', '原石', 8, '05');
+insert into goods values ('08', '铁锹', 40, '01');
+insert into goods values ('09', '铁锹', 35, '05');
+
 create table applications(
-    ano int primary key unique comment '请购单号',
-    gno int comment '货物编号',
+    ano varchar(10) primary key unique comment '请购单号',
+    gno varchar(10) comment '货物编号',
     quantity int comment '购货数量',
     pname varchar(10) comment '采购员',
     adate datetime default now() comment '请购日期',
@@ -31,8 +47,10 @@ create table applications(
     check ( astate in ('审核中', '已通过', '已拒绝') )
 ) comment '请购单';
 
+insert into applications values ('01', '04', '100', '张三', default, '审核中');
+
 create table buying(
-    bno int primary key unique comment '采购单号',
+    bno varchar(10) primary key unique comment '采购单号',
     bstate varchar(4) comment '采购状态',
     bname varchar(10) comment '接货员',
     bdate datetime comment '采购日期',
@@ -40,9 +58,9 @@ create table buying(
 ) comment '采购单';
 
 create table documents(
-    dno int primary key unique comment '单据号',
-    ano int comment '请购单号',
-    bno int comment '采购单号',
+    dno varchar(10) primary key unique comment '单据号',
+    ano varchar(10) comment '请购单号',
+    bno varchar(10) comment '采购单号',
     foreign key (ano) references applications (ano),
     foreign key (bno) references buying (bno)
 ) comment '业务单据';

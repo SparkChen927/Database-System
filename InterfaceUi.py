@@ -180,7 +180,7 @@ class Ui_MainWindow(object):
         self.tableWidget_sup.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableWidget_sup.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
         self.tableWidget_sup.setObjectName("tableWidget_sup")
-        self.tableWidget_sup.setColumnCount(4)
+        self.tableWidget_sup.setColumnCount(3)
         self.tableWidget_sup.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_sup.setHorizontalHeaderItem(0, item)
@@ -188,8 +188,6 @@ class Ui_MainWindow(object):
         self.tableWidget_sup.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_sup.setHorizontalHeaderItem(2, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_sup.setHorizontalHeaderItem(3, item)
         self.tableWidget_sup.horizontalHeader().setDefaultSectionSize(150)
         self.tableWidget_sup.verticalHeader().setVisible(False)
         self.pushButton_supAdd = QtWidgets.QPushButton(self.page_sup)
@@ -212,6 +210,19 @@ class Ui_MainWindow(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.pushButton_supFind.setObjectName("pushButton_supFind")
+        self.lineEdit_sup = QtWidgets.QLineEdit(self.page_sup)
+        self.lineEdit_sup.setGeometry(QtCore.QRect(230, 0, 113, 31))
+        self.lineEdit_sup.setObjectName("lineEdit_sup")
+        self.pushButton_supEdit = QtWidgets.QPushButton(self.page_sup)
+        self.pushButton_supEdit.setGeometry(QtCore.QRect(370, 0, 111, 28))
+        self.pushButton_supEdit.setStyleSheet("QPushButton{\n"
+"    background-color: rgb(85, 255, 255);\n"
+"    font: 12pt \"楷体\";\n"
+"    border:none;\n"
+"    border-radius:7px;\n"
+"    color: rgb(0, 0, 0);\n"
+"}")
+        self.pushButton_supEdit.setObjectName("pushButton_supEdit")
         self.stackedWidget.addWidget(self.page_sup)
         self.page_app = QtWidgets.QWidget()
         self.page_app.setObjectName("page_app")
@@ -261,6 +272,9 @@ class Ui_MainWindow(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.pushButton_appFind.setObjectName("pushButton_appFind")
+        self.lineEdit_app = QtWidgets.QLineEdit(self.page_app)
+        self.lineEdit_app.setGeometry(QtCore.QRect(230, 0, 113, 31))
+        self.lineEdit_app.setObjectName("lineEdit_app")
         self.stackedWidget.addWidget(self.page_app)
         self.page_buy = QtWidgets.QWidget()
         self.page_buy.setObjectName("page_buy")
@@ -299,6 +313,9 @@ class Ui_MainWindow(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.pushButton_appFind_2.setObjectName("pushButton_appFind_2")
+        self.lineEdit_buy = QtWidgets.QLineEdit(self.page_buy)
+        self.lineEdit_buy.setGeometry(QtCore.QRect(130, 0, 113, 31))
+        self.lineEdit_buy.setObjectName("lineEdit_buy")
         self.stackedWidget.addWidget(self.page_buy)
         self.page_anly = QtWidgets.QWidget()
         self.page_anly.setObjectName("page_anly")
@@ -337,6 +354,9 @@ class Ui_MainWindow(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.pushButton_anlyFind.setObjectName("pushButton_anlyFind")
+        self.lineEdit_anly = QtWidgets.QLineEdit(self.page_anly)
+        self.lineEdit_anly.setGeometry(QtCore.QRect(130, 0, 113, 31))
+        self.lineEdit_anly.setObjectName("lineEdit_anly")
         self.stackedWidget.addWidget(self.page_anly)
         self.page_doc = QtWidgets.QWidget()
         self.page_doc.setObjectName("page_doc")
@@ -369,7 +389,61 @@ class Ui_MainWindow(object):
 "    color: rgb(0, 0, 0);\n"
 "}")
         self.pushButton_docFind.setObjectName("pushButton_docFind")
+        self.lineEdit_doc = QtWidgets.QLineEdit(self.page_doc)
+        self.lineEdit_doc.setGeometry(QtCore.QRect(130, 0, 113, 31))
+        self.lineEdit_doc.setObjectName("lineEdit_doc")
         self.stackedWidget.addWidget(self.page_doc)
+        self.page_edit = QtWidgets.QWidget()
+        self.page_edit.setObjectName("page_edit")
+        self.tableWidget_edit = QtWidgets.QTableWidget(self.page_edit)
+        self.tableWidget_edit.setGeometry(QtCore.QRect(0, 40, 901, 541))
+        self.tableWidget_edit.setStyleSheet("background-color: rgba(0, 0, 0, 0);")
+        self.tableWidget_edit.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.tableWidget_edit.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget_edit.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.tableWidget_edit.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.tableWidget_edit.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
+        self.tableWidget_edit.setObjectName("tableWidget_edit")
+        self.tableWidget_edit.setColumnCount(6)
+        self.tableWidget_edit.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_edit.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_edit.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_edit.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_edit.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_edit.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget_edit.setHorizontalHeaderItem(5, item)
+        self.tableWidget_edit.horizontalHeader().setDefaultSectionSize(150)
+        self.tableWidget_edit.verticalHeader().setVisible(False)
+        self.pushButton_editFind = QtWidgets.QPushButton(self.page_edit)
+        self.pushButton_editFind.setGeometry(QtCore.QRect(130, 0, 93, 28))
+        self.pushButton_editFind.setStyleSheet("QPushButton{\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 0, 255), stop:1 rgba(255, 255, 255, 255));\n"
+"    font: 12pt \"楷体\";\n"
+"    border:none;\n"
+"    border-radius:7px;\n"
+"    color: rgb(0, 0, 0);\n"
+"}")
+        self.pushButton_editFind.setObjectName("pushButton_editFind")
+        self.pushButton_editAdd = QtWidgets.QPushButton(self.page_edit)
+        self.pushButton_editAdd.setGeometry(QtCore.QRect(20, 0, 93, 28))
+        self.pushButton_editAdd.setStyleSheet("QPushButton{\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(0, 170, 0, 255), stop:1 rgba(255, 255, 255, 255));\n"
+"    font: 12pt \"楷体\";\n"
+"    border:none;\n"
+"    border-radius:7px;\n"
+"    color: rgb(0, 0, 0);\n"
+"}")
+        self.pushButton_editAdd.setObjectName("pushButton_editAdd")
+        self.lineEdit_edit = QtWidgets.QLineEdit(self.page_edit)
+        self.lineEdit_edit.setGeometry(QtCore.QRect(230, 0, 113, 31))
+        self.lineEdit_edit.setObjectName("lineEdit_edit")
+        self.stackedWidget.addWidget(self.page_edit)
         self.verticalLayout_4.addWidget(self.stackedWidget)
         self.horizontalLayout_4.addWidget(self.frame_6)
         self.verticalLayout.addWidget(self.frame_3)
@@ -377,7 +451,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(5)
         self.pushButton_close.clicked.connect(MainWindow.close) # type: ignore
         self.pushButton_minisize.clicked.connect(MainWindow.showMinimized) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -396,11 +470,10 @@ class Ui_MainWindow(object):
         item = self.tableWidget_sup.horizontalHeaderItem(1)
         item.setText(_translate("MainWindow", "供货"))
         item = self.tableWidget_sup.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "采购员"))
-        item = self.tableWidget_sup.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "操作"))
         self.pushButton_supAdd.setText(_translate("MainWindow", "添加"))
         self.pushButton_supFind.setText(_translate("MainWindow", "查找"))
+        self.pushButton_supEdit.setText(_translate("MainWindow", "供应商管理"))
         self.pushButton_appAdd.setText(_translate("MainWindow", "添加"))
         item = self.tableWidget_app.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "供应商"))
@@ -450,4 +523,18 @@ class Ui_MainWindow(object):
         item = self.tableWidget_doc.horizontalHeaderItem(2)
         item.setText(_translate("MainWindow", "操作"))
         self.pushButton_docFind.setText(_translate("MainWindow", "查找"))
+        item = self.tableWidget_edit.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "供应商"))
+        item = self.tableWidget_edit.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "类别"))
+        item = self.tableWidget_edit.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "联系地址"))
+        item = self.tableWidget_edit.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "结算方式"))
+        item = self.tableWidget_edit.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "信用等级"))
+        item = self.tableWidget_edit.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "操作"))
+        self.pushButton_editFind.setText(_translate("MainWindow", "查找"))
+        self.pushButton_editAdd.setText(_translate("MainWindow", "添加"))
 import res_rc
