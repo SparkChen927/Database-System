@@ -21,24 +21,48 @@ class LoginWindow(QMainWindow):
         self.ui.setupUi(self)
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        self.ui.pushButton_in.clicked.connect(self.go_to_main)
+        self.ui.pushButton_in.clicked.connect(self.login_in)
         self.ui.pushButton_up.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
         self.ui.pushButton_r.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(0))
-        self.ui.pushButton_in.clicked.connect(self.sign_up)
+        self.ui.pushButton_u.clicked.connect(self.sign_up)
         self.show()
 
-    def go_to_main(self):
+    def login_in(self):
+        cursor = db.cursor()
         account = self.ui.lineEdit_u.text()
         password = self.ui.lineEdit_p.text()
-        if account == "admin" and password == "123456":
+        sql = "select * from users where username = '%s' and password = '%s'" % (account, password)
+        cursor.execute(sql)
+        if cursor.fetchone() is None:
+            QMessageBox.critical(self, "错误", "账号或密码错误")
+        else:
             InterfaceWindow()
             self.close()
-        else:
-            QMessageBox.critical(self, "错误", "账号或密码错误")
+        cursor.close()
 
     def sign_up(self):
+        self.ui.lineEdit_u.setText("")
+        self.ui.lineEdit_p.setText("")
+        cursor = db.cursor()
         account = self.ui.lineEdit_u2.text()
         password = self.ui.lineEdit_p2.text()
+        sql = "select * from users where username = '%s'" % account
+        cursor.execute(sql)
+        if cursor.fetchone() is None:
+            sql = "insert into users values ('%s', '%s')" % (account, password)
+            cursor.execute(sql)
+            QMessageBox.information(self, "消息", "注册成功")
+            self.ui.stackedWidget.setCurrentIndex(0)
+            self.ui.lineEdit_u.setText(account)
+            self.ui.lineEdit_p.setText(password)
+            self.ui.lineEdit_u2.setText("")
+            self.ui.lineEdit_p2.setText("")
+        else:
+            QMessageBox.critical(self, "错误", "账号已存在")
+            self.ui.lineEdit_u2.setText("")
+            self.ui.lineEdit_p2.setText("")
+        db.commit()
+        cursor.close()
 
     # 拖动
     def mousePressEvent(self, event):

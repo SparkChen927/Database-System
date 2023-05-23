@@ -48,6 +48,8 @@ create table documents(
 ) comment '业务单据';
 
 create table users(
-    name varchar(20) primary key unique comment '用户名',
+    username varchar(20) primary key unique comment '用户名',
     password varchar(20) comment '密码'
 );
+
+insert into users values ('admin', '123456');
