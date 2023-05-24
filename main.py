@@ -111,7 +111,8 @@ class InterfaceWindow(QMainWindow):
 
         self.ui.pushButton_doc.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
 
-        self.ui.pushButton_anly.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
+        self.ui.pushButton_anly.clicked.connect(self.go_to_anly)
+        self.ui.pushButton_docFind.clicked.connect(self.find_anly)
 
         self.ui.pushButton_exit.clicked.connect(self.back_to_login)
         self.ui.pushButton_maxsize.clicked.connect(self.resize_win)  # 注意不要有括号
@@ -124,6 +125,10 @@ class InterfaceWindow(QMainWindow):
     def go_to_sup(self):
         self.ui.stackedWidget.setCurrentIndex(0)
         self.init_sup()
+
+    def go_to_anly(self):
+        self.ui.stackedWidget.setCurrentIndex(4)
+        self.init_anly()
 
     def resize_win(self):
         if self.isMaximized():
@@ -337,6 +342,77 @@ class InterfaceWindow(QMainWindow):
             cursor.close()
             self.init_sup()
 
+    def init_anly(self):
+        cursor = db.cursor()
+        sql = "select * from analyse"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if result is not None:
+            row = cursor.rowcount
+            vol = len(result[0])
+            self.ui.tableWidget_doc.setRowCount(row)
+            result = list(result)
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            for i in range(row):
+                self.ui.tableWidget_doc.setCellWidget(i, 2, self.button_anly())
+                for j in range(vol):
+                    if result[i][j] is not None:
+                        item = QTableWidgetItem(str(result[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_doc.setItem(i, j, item)
+        cursor.close()
+
+    def button_anly(self):
+        widget = QtWidgets.QWidget()
+        # 详情
+        self.viewBtn = QtWidgets.QPushButton('详情')
+        self.viewBtn.setStyleSheet(''' text-align : center;
+                                                          background-color : Green;
+                                                          height : 30px;
+                                                          border-style: outset;
+                                                          font : 13px  ''')
+        self.viewBtn.clicked.connect(self.view_anly)
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(self.viewBtn)
+        hLayout.setContentsMargins(5, 2, 5, 2)
+        widget.setLayout(hLayout)
+        return widget
+
+    def view_anly(self):
+        global gname
+        button = self.sender()
+        if button:
+            row = self.ui.tableWidget_doc.indexAt(button.parent().pos()).row()
+            gname = self.ui.tableWidget_doc.item(row, 0).text()
+        coo(6)
+        UpdateDlg().exec_()
+
+    def find_anly(self):
+        anly_index = self.ui.lineEdit_doc.text()
+        if anly_index == "":
+            self.ui.tableWidget_doc.setRowCount(0)
+        else:
+            sql = "select * from analyse where gname like '%%%s%%'" % anly_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            if result is not None:
+                row = cursor.rowcount
+                vol = len(result[0])
+                self.ui.tableWidget_doc.setRowCount(row)
+                result = list(result)
+                for i in range(len(result)):
+                    result[i] = list(result[i])
+                for i in range(row):
+                    self.ui.tableWidget_doc.setCellWidget(i, 2, self.button_anly())
+                    for j in range(vol):
+                        if result[i][j] is not None:
+                            item = QTableWidgetItem(str(result[i][j]))
+                            item.setForeground(QBrush(QColor(255, 255, 255)))
+                            self.ui.tableWidget_doc.setItem(i, j, item)
+            cursor.close()
+
     def mousePressEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton and self.isMaximized() == False:
             self.m_flag = True
@@ -360,6 +436,7 @@ class UpdateDlg(QtWidgets.QDialog):
         self.ui = Ui_UpdateDlg()
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(a)
+        self.init_anly()
         self.ui.pushButton_supYes.clicked.connect(self.update_sup)
         self.ui.pushButton_supYes2.clicked.connect(self.add_sup)
 
@@ -432,6 +509,28 @@ class UpdateDlg(QtWidgets.QDialog):
                 QMessageBox.information(self, "消息", "修改成功")
                 self.close()
             cursor.close()
+
+    def init_anly(self):
+        self.ui.label_goods.setText(gname)
+        sql = "select sname, type, credit from suppliers " \
+              "where sno in (select sno from goods where gname = '%s')" % gname
+        cursor = db.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if result is not None:
+            row = cursor.rowcount
+            vol = len(result[0])
+            self.ui.tableWidget_anly.setRowCount(row)
+            result = list(result)
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            for i in range(row):
+                for j in range(vol):
+                    if result[i][j] is not None:
+                        item = QTableWidgetItem(str(result[i][j]))
+                        item.setForeground(QBrush(QColor(0, 0, 0)))
+                        self.ui.tableWidget_anly.setItem(i, j, item)
+        cursor.close()
 
     def mousePressEvent(self, event):
         if event.button() == QtCore.Qt.LeftButton and self.isMaximized() == False:
