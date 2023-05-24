@@ -112,36 +112,10 @@ on buying for each row
         delete from documents where documents.bno = old.bno;
     end //
 
-drop view if exists analyse;
-create view analyse as select gname, count(*) from goods group by gname;
-
+drop procedure if exists anly;
 delimiter //
 create procedure anly()
     begin
         drop view if exists analyse;
         create view analyse as select gname, count(*) from goods group by gname;
-    end //
-
-drop trigger if exists goods_add;
-delimiter //
-create trigger goods_add after insert
-on goods for each row
-    begin
-        call anly();
-    end //
-
-drop trigger if exists goods_up;
-delimiter //
-create trigger goods_up after update
-on goods for each row
-    begin
-        call anly();
-    end //
-
-drop trigger if exists goods_del2;
-delimiter //
-create trigger goods_del2 after delete
-on goods for each row
-    begin
-        call anly();
     end //
