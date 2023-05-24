@@ -328,7 +328,7 @@ class Ui_MainWindow(object):
         self.tableWidget_anly.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.tableWidget_anly.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive | QHeaderView.Stretch)
         self.tableWidget_anly.setObjectName("tableWidget_anly")
-        self.tableWidget_anly.setColumnCount(6)
+        self.tableWidget_anly.setColumnCount(5)
         self.tableWidget_anly.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_anly.setHorizontalHeaderItem(0, item)
@@ -340,8 +340,6 @@ class Ui_MainWindow(object):
         self.tableWidget_anly.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget_anly.setHorizontalHeaderItem(4, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget_anly.setHorizontalHeaderItem(5, item)
         self.tableWidget_anly.horizontalHeader().setDefaultSectionSize(150)
         self.tableWidget_anly.verticalHeader().setVisible(False)
         self.pushButton_anlyFind = QtWidgets.QPushButton(self.page_anly)
@@ -451,7 +449,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(5)
+        self.stackedWidget.setCurrentIndex(3)
         self.pushButton_close.clicked.connect(MainWindow.close) # type: ignore
         self.pushButton_minisize.clicked.connect(MainWindow.showMinimized) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -513,8 +511,6 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "采购员"))
         item = self.tableWidget_anly.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "接货员"))
-        item = self.tableWidget_anly.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "操作"))
         self.pushButton_anlyFind.setText(_translate("MainWindow", "查找"))
         item = self.tableWidget_doc.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "货物"))

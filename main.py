@@ -109,9 +109,9 @@ class InterfaceWindow(QMainWindow):
 
         self.ui.pushButton_buy.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
 
-        self.ui.pushButton_anly.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
+        self.ui.pushButton_doc.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
 
-        self.ui.pushButton_doc.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
+        self.ui.pushButton_anly.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
 
         self.ui.pushButton_exit.clicked.connect(self.back_to_login)
         self.ui.pushButton_maxsize.clicked.connect(self.resize_win)  # 注意不要有括号
@@ -244,60 +244,63 @@ class InterfaceWindow(QMainWindow):
 
     def find_sup(self):
         sup_index = self.ui.lineEdit_sup.text()
-        sql = "select sname, gname from goods, suppliers where suppliers.sno = goods.sno " \
-              "and suppliers.sname like '%%%s%%'" % sup_index
-        cursor = db.cursor()
-        cursor.execute(sql)
-        result1 = cursor.fetchall()
-        row1 = cursor.rowcount
-        if result1 is not None:
-            result1 = list(result1)
-            for i in range(len(result1)):
-                result1[i] = list(result1[i])
-        sql = "select sname, gname from goods, suppliers where suppliers.sno = goods.sno " \
-              "and goods.gname like '%%%s%%'" % sup_index
-        cursor = db.cursor()
-        cursor.execute(sql)
-        result2 = cursor.fetchall()
-        row2 = cursor.rowcount
-        if result2 is not None:
-            result2 = list(result2)
-            for i in range(len(result2)):
-                result2[i] = list(result2[i])
-        if row1 + row2 == 0:
+        if sup_index == "":
             self.ui.tableWidget_sup.setRowCount(0)
-        elif row1 > 0 and row2 == 0:
-            self.ui.tableWidget_sup.setRowCount(row1)
-            for i in range(row1):
-                self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
-                for j in range(0, 2):
-                    item = QTableWidgetItem(str(result1[i][j]))
-                    item.setForeground(QBrush(QColor(255, 255, 255)))
-                    self.ui.tableWidget_sup.setItem(i, j, item)
-        elif row1 == 0 and row2 > 0:
-            self.ui.tableWidget_sup.setRowCount(row2)
-            for i in range(row2):
-                self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
-                for j in range(0, 2):
-                    item = QTableWidgetItem(str(result2[i][j]))
-                    item.setForeground(QBrush(QColor(255, 255, 255)))
-                    self.ui.tableWidget_sup.setItem(i, j, item)
-        elif row1 > 0 and row2 > 0:
-            self.ui.tableWidget_sup.setRowCount(row1 + row2)
-            for i in range(row1):
-                self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
-                for j in range(0, 2):
-                    item = QTableWidgetItem(str(result1[i][j]))
-                    item.setForeground(QBrush(QColor(255, 255, 255)))
-                    self.ui.tableWidget_sup.setItem(i, j, item)
-            for i in range(row1, row1 + row2):
-                self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
-                for j in range(row2):
-                    for k in range(0, 2):
-                        item = QTableWidgetItem(str(result2[j][k]))
+        else:
+            sql = "select sname, gname from goods, suppliers where suppliers.sno = goods.sno " \
+                  "and suppliers.sname like '%%%s%%'" % sup_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result1 = cursor.fetchall()
+            row1 = cursor.rowcount
+            if result1 is not None:
+                result1 = list(result1)
+                for i in range(len(result1)):
+                    result1[i] = list(result1[i])
+            sql = "select sname, gname from goods, suppliers where suppliers.sno = goods.sno " \
+                  "and goods.gname like '%%%s%%'" % sup_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result2 = cursor.fetchall()
+            row2 = cursor.rowcount
+            if result2 is not None:
+                result2 = list(result2)
+                for i in range(len(result2)):
+                    result2[i] = list(result2[i])
+            if row1 + row2 == 0:
+                self.ui.tableWidget_sup.setRowCount(0)
+            elif row1 > 0 and row2 == 0:
+                self.ui.tableWidget_sup.setRowCount(row1)
+                for i in range(row1):
+                    self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
+                    for j in range(0, 2):
+                        item = QTableWidgetItem(str(result1[i][j]))
                         item.setForeground(QBrush(QColor(255, 255, 255)))
-                        self.ui.tableWidget_sup.setItem(i, k, item)
-        cursor.close()
+                        self.ui.tableWidget_sup.setItem(i, j, item)
+            elif row1 == 0 and row2 > 0:
+                self.ui.tableWidget_sup.setRowCount(row2)
+                for i in range(row2):
+                    self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
+                    for j in range(0, 2):
+                        item = QTableWidgetItem(str(result2[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_sup.setItem(i, j, item)
+            elif row1 > 0 and row2 > 0:
+                self.ui.tableWidget_sup.setRowCount(row1 + row2)
+                for i in range(row1):
+                    self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
+                    for j in range(0, 2):
+                        item = QTableWidgetItem(str(result1[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_sup.setItem(i, j, item)
+                for i in range(row1, row1 + row2):
+                    self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
+                    for j in range(row2):
+                        for k in range(0, 2):
+                            item = QTableWidgetItem(str(result2[j][k]))
+                            item.setForeground(QBrush(QColor(255, 255, 255)))
+                            self.ui.tableWidget_sup.setItem(i, k, item)
+            cursor.close()
 
     def update_sup(self):
         global gno
@@ -363,7 +366,7 @@ class UpdateDlg(QtWidgets.QDialog):
     def add_sup(self):
         cursor = db.cursor()
         gname = self.ui.lineEdit_gname2.text()
-        price = float(self.ui.lineEdit_price2.text())
+        price = self.ui.lineEdit_price2.text()
         sname = self.ui.lineEdit_sname2.text()
         sql = "select sno from suppliers where sname = '%s'" % sname
         cursor.execute(sql)
@@ -394,7 +397,7 @@ class UpdateDlg(QtWidgets.QDialog):
                     str_no = "0" + str(no)
                 else:
                     str_no = str(no)
-                sql = "insert into goods values ('%s', '%s', %f, '%s')" % (str_no, gname, price, sno)
+                sql = "insert into goods values ('%s', '%s', %s, '%s')" % (str_no, gname, price, sno)
                 cursor.execute(sql)
                 db.commit()
                 QMessageBox.information(self, "消息", "添加成功")
@@ -420,7 +423,7 @@ class UpdateDlg(QtWidgets.QDialog):
                     result[i] = list(result[i])
                 sno = result[0][0]
                 sql1 = "update goods set gname = '%s' where gno = '%s'" % (gname, gno)
-                sql2 = "update goods set price = %s where gno = '%s'" % (price, gno)
+                sql2 = "update goods set price = %s where gno = %s" % (price, gno)
                 sql3 = "update goods set sno = '%s' where gno = '%s'" % (sno, gno)
                 cursor.execute(sql1)
                 cursor.execute(sql2)

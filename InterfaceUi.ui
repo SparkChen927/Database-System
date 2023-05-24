@@ -340,7 +340,7 @@ QPushButton:pressed{
                 <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
                </property>
                <property name="currentIndex">
-                <number>5</number>
+                <number>3</number>
                </property>
                <widget class="QWidget" name="page_sup">
                 <widget class="QTableWidget" name="tableWidget_sup">
@@ -734,11 +734,6 @@ QPushButton:pressed{
                  <column>
                   <property name="text">
                    <string>接货员</string>
-                  </property>
-                 </column>
-                 <column>
-                  <property name="text">
-                   <string>操作</string>
                   </property>
                  </column>
                 </widget>
