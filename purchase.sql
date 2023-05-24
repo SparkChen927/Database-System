@@ -1,5 +1,7 @@
-create database purchase;
+create database if not exists purchase;
 use purchase;
+
+drop table if exists suppliers;
 create table suppliers(
     sno varchar(10) primary key unique comment '供应商号',
     sname varchar(20) comment '供应商名',
@@ -18,6 +20,7 @@ insert into suppliers values ('03', '仙舟', '考察', '罗浮', '转账', 'B')
 insert into suppliers values ('04', '星穹列车', '优先', '', '现金', 'A');
 insert into suppliers values ('05', '愚人众', '积极淘汰', '俄罗斯', '转账', 'C');
 
+drop table if exists goods;
 create table goods(
     gno varchar(10) primary key unique comment '货物编号',
     gname varchar(20) comment '货物名',
@@ -36,6 +39,7 @@ insert into goods values ('07', '原石', 8, '05');
 insert into goods values ('08', '铁锹', 40, '01');
 insert into goods values ('09', '铁锹', 35, '05');
 
+drop table if exists applications;
 create table applications(
     ano varchar(10) primary key unique comment '请购单号',
     gno varchar(10) comment '货物编号',
@@ -49,6 +53,7 @@ create table applications(
 
 insert into applications values ('01', '04', '100', '张三', default, '审核中');
 
+drop table if exists buying;
 create table buying(
     bno varchar(10) primary key unique comment '采购单号',
     bstate varchar(4) comment '采购状态',
@@ -57,6 +62,7 @@ create table buying(
     check ( bstate in ('收货', '验货', '退货') )
 ) comment '采购单';
 
+drop table if exists documents;
 create table documents(
     dno varchar(10) primary key unique comment '单据号',
     ano varchar(10) comment '请购单号',
@@ -65,9 +71,77 @@ create table documents(
     foreign key (bno) references buying (bno)
 ) comment '业务单据';
 
+drop table if exists users;
 create table users(
     username varchar(20) primary key unique comment '用户名',
     password varchar(20) comment '密码'
 );
 
 insert into users values ('admin', '123456');
+
+drop trigger if exists sup_del;
+delimiter //
+create trigger sup_del before delete
+on suppliers for each row
+    begin
+        delete from goods where goods.sno = old.sno;
+    end//
+
+drop trigger if exists goods_del;
+delimiter //
+create trigger goods_del before delete
+on goods for each row
+    begin
+        delete from applications where applications.gno = old.gno;
+    end //
+
+drop trigger if exists app_del;
+delimiter //
+create trigger app_del before delete
+on applications for each row
+    begin
+        delete from buying where bno in (select bno from documents where documents.ano = old.ano);
+    end //
+
+drop trigger if exists buy_del;
+delimiter //
+create trigger buy_del before delete
+on buying for each row
+    begin
+        delete from applications where ano in (select ano from documents where documents.bno = old.bno);
+        delete from documents where documents.bno = old.bno;
+    end //
+
+drop view if exists analyse;
+create view analyse as select gname, count(*) from goods group by gname;
+
+delimiter //
+create procedure anly()
+    begin
+        drop view if exists analyse;
+        create view analyse as select gname, count(*) from goods group by gname;
+    end //
+
+drop trigger if exists goods_add;
+delimiter //
+create trigger goods_add after insert
+on goods for each row
+    begin
+        call anly();
+    end //
+
+drop trigger if exists goods_up;
+delimiter //
+create trigger goods_up after update
+on goods for each row
+    begin
+        call anly();
+    end //
+
+drop trigger if exists goods_del2;
+delimiter //
+create trigger goods_del2 after delete
+on goods for each row
+    begin
+        call anly();
+    end //
