@@ -46,19 +46,19 @@ create table applications(
     quantity int comment '购货数量',
     pname varchar(10) comment '采购员',
     adate datetime default now() comment '请购日期',
-    astate varchar(6) comment '请购状态',
+    astate varchar(6) default '审核中' comment '请购状态',
     foreign key (gno) references goods (gno),
     check ( astate in ('审核中', '已通过', '已拒绝') )
 ) comment '请购单';
 
-insert into applications values ('01', '04', '100', '张三', default, '审核中');
+insert into applications values ('01', '04', '100', '张三', default, default);
 
 drop table if exists buying;
 create table buying(
     bno varchar(10) primary key unique comment '采购单号',
-    bstate varchar(4) comment '采购状态',
+    bstate varchar(4) default '验货' comment '采购状态',
     bname varchar(10) comment '接货员',
-    bdate datetime comment '采购日期',
+    bdate datetime default now() comment '审核日期',
     check ( bstate in ('收货', '验货', '退货') )
 ) comment '采购单';
 
@@ -100,17 +100,20 @@ delimiter //
 create trigger app_del before delete
 on applications for each row
     begin
-        delete from buying where bno in (select bno from documents where documents.ano = old.ano);
+        SET foreign_key_checks = 0;
+        delete from buying where bno in (select bno from documents where ano = old.ano);
+        delete from documents where ano = old.ano;
+        SET foreign_key_checks = 1;
     end //
 
-drop trigger if exists buy_del;
-delimiter //
-create trigger buy_del before delete
-on buying for each row
-    begin
-        delete from applications where ano in (select ano from documents where documents.bno = old.bno);
-        delete from documents where documents.bno = old.bno;
-    end //
+# drop trigger if exists buy_del;
+# delimiter //
+# create trigger buy_del before delete
+# on buying for each row
+#     begin
+#         delete from documents where bno = old.bno;
+#         delete from applications where ano in (select ano from documents where bno = old.bno);
+#     end //
 
 drop procedure if exists anly;
 delimiter //
@@ -119,3 +122,5 @@ create procedure anly()
         drop view if exists analyse;
         create view analyse as select gname, count(*) from goods group by gname;
     end //
+
+

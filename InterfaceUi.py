@@ -303,16 +303,16 @@ class Ui_MainWindow(object):
         self.tableWidget_buy.setHorizontalHeaderItem(5, item)
         self.tableWidget_buy.horizontalHeader().setDefaultSectionSize(150)
         self.tableWidget_buy.verticalHeader().setVisible(False)
-        self.pushButton_appFind_2 = QtWidgets.QPushButton(self.page_buy)
-        self.pushButton_appFind_2.setGeometry(QtCore.QRect(30, 0, 93, 28))
-        self.pushButton_appFind_2.setStyleSheet("QPushButton{\n"
+        self.pushButton_buyFind = QtWidgets.QPushButton(self.page_buy)
+        self.pushButton_buyFind.setGeometry(QtCore.QRect(30, 0, 93, 28))
+        self.pushButton_buyFind.setStyleSheet("QPushButton{\n"
 "    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 0, 255), stop:1 rgba(255, 255, 255, 255));\n"
 "    font: 12pt \"楷体\";\n"
 "    border:none;\n"
 "    border-radius:7px;\n"
 "    color: rgb(0, 0, 0);\n"
 "}")
-        self.pushButton_appFind_2.setObjectName("pushButton_appFind_2")
+        self.pushButton_buyFind.setObjectName("pushButton_buyFind")
         self.lineEdit_buy = QtWidgets.QLineEdit(self.page_buy)
         self.lineEdit_buy.setGeometry(QtCore.QRect(130, 0, 113, 31))
         self.lineEdit_buy.setObjectName("lineEdit_buy")
@@ -500,7 +500,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "状态"))
         item = self.tableWidget_buy.horizontalHeaderItem(5)
         item.setText(_translate("MainWindow", "操作"))
-        self.pushButton_appFind_2.setText(_translate("MainWindow", "查找"))
+        self.pushButton_buyFind.setText(_translate("MainWindow", "查找"))
         item = self.tableWidget_anly.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "供应商"))
         item = self.tableWidget_anly.horizontalHeaderItem(1)

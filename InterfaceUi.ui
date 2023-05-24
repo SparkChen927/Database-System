@@ -647,7 +647,7 @@ QPushButton:pressed{
                   </property>
                  </column>
                 </widget>
-                <widget class="QPushButton" name="pushButton_appFind_2">
+                <widget class="QPushButton" name="pushButton_buyFind">
                  <property name="geometry">
                   <rect>
                    <x>30</x>
