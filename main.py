@@ -23,6 +23,27 @@ def coo(num):
     return a
 
 
+gname = ""
+def gname_f(str):
+    global gname
+    gname = str
+    return gname
+
+
+gno = ""
+def gno_f(str):
+    global gno
+    gno = str
+    return gno
+
+
+sname = ""
+def sname_f(str):
+    global sname_i
+    sname_i = str
+    return sname_i
+
+
 class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -101,7 +122,7 @@ class InterfaceWindow(QMainWindow):
 
         self.init_sup()
         self.ui.pushButton_sup.clicked.connect(self.go_to_sup)
-        self.ui.pushButton_supEdit.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(5))
+        self.ui.pushButton_supEdit.clicked.connect(self.go_to_edit)
         self.ui.pushButton_supAdd.clicked.connect(self.add_sup)
         self.ui.pushButton_supFind.clicked.connect(self.find_sup)
 
@@ -114,6 +135,9 @@ class InterfaceWindow(QMainWindow):
         self.ui.pushButton_anly.clicked.connect(self.go_to_anly)
         self.ui.pushButton_docFind.clicked.connect(self.find_anly)
 
+        self.ui.pushButton_editAdd.clicked.connect(self.add_edit)
+        self.ui.pushButton_editFind.clicked.connect(self.find_edit)
+
         self.ui.pushButton_exit.clicked.connect(self.back_to_login)
         self.ui.pushButton_maxsize.clicked.connect(self.resize_win)  # 注意不要有括号
         self.show()
@@ -121,6 +145,111 @@ class InterfaceWindow(QMainWindow):
     def back_to_login(self):
         LoginWindow()
         self.close()
+
+    def go_to_edit(self):
+        self.ui.stackedWidget.setCurrentIndex(5)
+        self.init_edit()
+
+    def init_edit(self):
+        cursor = db.cursor()
+        sql = "select sname, type, address, settlement, credit from suppliers"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        if result is not None:
+            row = cursor.rowcount
+            vol = len(result[0])
+            self.ui.tableWidget_edit.setRowCount(row)
+            result = list(result)
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            for i in range(row):
+                self.ui.tableWidget_edit.setCellWidget(i, 5, self.button_edit())
+                for j in range(vol):
+                    if result[i][j] is not None:
+                        item = QTableWidgetItem(str(result[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_edit.setItem(i, j, item)
+        cursor.close()
+
+    def button_edit(self):
+        widget = QtWidgets.QWidget()
+        # 修改
+        self.updateBtn = QtWidgets.QPushButton('编辑')
+        self.updateBtn.setStyleSheet(''' text-align : center;
+                                                  background-color : NavajoWhite;
+                                                  height : 30px;
+                                                  border-style: outset;
+                                                  font : 13px  ''')
+        self.updateBtn.clicked.connect(self.update_edit)
+
+        # 删除
+        self.deleteBtn = QtWidgets.QPushButton('删除')
+        self.deleteBtn.setStyleSheet(''' text-align : center;
+                                            background-color : LightCoral;
+                                            height : 30px;
+                                            border-style: outset;
+                                            font : 13px; ''')
+        self.deleteBtn.clicked.connect(self.delete_edit)
+
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(self.updateBtn)
+        hLayout.addWidget(self.deleteBtn)
+        hLayout.setContentsMargins(5, 2, 5, 2)
+        widget.setLayout(hLayout)
+        return widget
+
+    def add_edit(self):
+        coo(2)
+        UpdateDlg().exec_()
+        self.init_edit()
+
+    def update_edit(self):
+        button = self.sender()
+        if button:
+            row = self.ui.tableWidget_sup.indexAt(button.parent().pos()).row()
+            text = self.ui.tableWidget_sup.item(row, 0).text()
+            sname_f(text)
+            coo(5)
+            UpdateDlg().exec_()
+            self.init_edit()
+
+    def find_edit(self):
+        edit_index = self.ui.lineEdit_edit.text()
+        if edit_index == "":
+            self.ui.tableWidget_edit.setRowCount(0)
+        else:
+            sql = "select sname, type, address, settlement, credit " \
+                  "from suppliers where sname like '%%%s%%'" % edit_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            if result is not None:
+                row = cursor.rowcount
+                vol = len(result[0])
+                self.ui.tableWidget_edit.setRowCount(row)
+                result = list(result)
+                for i in range(len(result)):
+                    result[i] = list(result[i])
+                for i in range(row):
+                    self.ui.tableWidget_edit.setCellWidget(i, 5, self.button_edit())
+                    for j in range(vol):
+                        if result[i][j] is not None:
+                            item = QTableWidgetItem(str(result[i][j]))
+                            item.setForeground(QBrush(QColor(255, 255, 255)))
+                            self.ui.tableWidget_edit.setItem(i, j, item)
+            cursor.close()
+
+    def delete_edit(self):
+        button = self.sender()
+        if button:
+            row = self.ui.tableWidget_edit.indexAt(button.parent().pos()).row()
+            text = self.ui.tableWidget_edit.item(row, 0).text()
+            cursor = db.cursor()
+            sql = "delete from suppliers where sname = '%s'" % text
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
+            self.init_edit()
 
     def go_to_sup(self):
         self.ui.stackedWidget.setCurrentIndex(0)
@@ -308,7 +437,6 @@ class InterfaceWindow(QMainWindow):
             cursor.close()
 
     def update_sup(self):
-        global gno
         button = self.sender()
         if button:
             row = self.ui.tableWidget_sup.indexAt(button.parent().pos()).row()
@@ -323,9 +451,10 @@ class InterfaceWindow(QMainWindow):
                 result = list(result)
                 for i in range(len(result)):
                     result[i] = list(result[i])
-                gno = result[0][0]
+                gno_f(result[0][0])
                 coo(0)
                 UpdateDlg().exec_()
+                self.init_sup()
             cursor.close()
 
     def delete_sup(self):
@@ -380,11 +509,10 @@ class InterfaceWindow(QMainWindow):
         return widget
 
     def view_anly(self):
-        global gname
         button = self.sender()
         if button:
             row = self.ui.tableWidget_doc.indexAt(button.parent().pos()).row()
-            gname = self.ui.tableWidget_doc.item(row, 0).text()
+            gname_f(self.ui.tableWidget_doc.item(row, 0).text())
         coo(6)
         UpdateDlg().exec_()
 
@@ -437,8 +565,85 @@ class UpdateDlg(QtWidgets.QDialog):
         self.ui.setupUi(self)
         self.ui.stackedWidget.setCurrentIndex(a)
         self.init_anly()
+        self.ui.pushButton_edit.clicked.connect(self.add_edit)
+        self.ui.pushButton_edit2.clicked.connect(self.update_edit)
         self.ui.pushButton_supYes.clicked.connect(self.update_sup)
         self.ui.pushButton_supYes2.clicked.connect(self.add_sup)
+
+    def add_edit(self):
+        cursor = db.cursor()
+        sname = self.ui.lineEdit_sn.text()
+        type = self.ui.comboBox_type.currentText()
+        addr = self.ui.lineEdit_addr.text()
+        stl = self.ui.comboBox_stl.currentText()
+        crd = self.ui.comboBox_crd.currentText()
+        sql = "select * from suppliers"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        no = 0
+        sname_index = True
+        if result is not None:
+            result = list(result)
+            row = cursor.rowcount
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            for i in range(row):
+                no = result[i][0]
+                if result[i][1] == sname:
+                    QMessageBox.critical(self, "错误", "已存在该供应商")
+                    sname_index = False
+                    break
+        if sname_index:
+            no = int(no) + 1
+            if no < 10:
+                str_no = "0" + str(no)
+            else:
+                str_no = str(no)
+            sql = "insert into suppliers values ('%s', '%s', '%s', '%s', '%s', '%s')" % (str_no, sname, type, addr, stl, crd)
+            cursor.execute(sql)
+            db.commit()
+            QMessageBox.information(self, "消息", "添加成功")
+            self.close()
+        cursor.close()
+
+    def update_edit(self):
+        cursor = db.cursor()
+        sname = self.ui.lineEdit_sn2.text()
+        type = self.ui.comboBox_type2.currentText()
+        addr = self.ui.lineEdit_addr2.text()
+        stl = self.ui.comboBox_stl2.currentText()
+        crd = self.ui.comboBox_crd2.currentText()
+        sql = "select * from suppliers"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        no = 0
+        sname_index = True
+        if result is not None:
+            result = list(result)
+            row = cursor.rowcount
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            for i in range(row):
+                no = result[i][0]
+                if result[i][1] == sname:
+                    QMessageBox.critical(self, "错误", "已存在该供应商")
+                    sname_index = False
+                    break
+        if sname_index:
+            sql1 = "update suppliers set sname = '%s' where sname = '%s'" % (sname, sname_i)
+            sql2 = "update suppliers set type = '%s' where sname = '%s'" % (type, sname_i)
+            sql3 = "update suppliers set address = '%s' where sname = '%s'" % (addr, sname_i)
+            sql4 = "update suppliers set settlement = '%s' where sname = '%s'" % (stl, sname_i)
+            sql5 = "update suppliers set credit = '%s' where sname = '%s'" % (crd, sname_i)
+            cursor.execute(sql1)
+            cursor.execute(sql2)
+            cursor.execute(sql3)
+            cursor.execute(sql4)
+            cursor.execute(sql5)
+            db.commit()
+            QMessageBox.information(self, "消息", "修改成功")
+            self.close()
+        cursor.close()
 
     def add_sup(self):
         cursor = db.cursor()
@@ -511,7 +716,11 @@ class UpdateDlg(QtWidgets.QDialog):
             cursor.close()
 
     def init_anly(self):
-        self.ui.label_goods.setText(gname)
+        if gname is not None:
+            self.ui.label_goods.setText(gname)
+        sql = "call anly()"
+        cursor = db.cursor()
+        cursor.execute(sql)
         sql = "select sname, type, credit from suppliers " \
               "where sno in (select sno from goods where gname = '%s')" % gname
         cursor = db.cursor()
@@ -519,13 +728,12 @@ class UpdateDlg(QtWidgets.QDialog):
         result = cursor.fetchall()
         if result is not None:
             row = cursor.rowcount
-            vol = len(result[0])
             self.ui.tableWidget_anly.setRowCount(row)
             result = list(result)
             for i in range(len(result)):
                 result[i] = list(result[i])
             for i in range(row):
-                for j in range(vol):
+                for j in range(3):
                     if result[i][j] is not None:
                         item = QTableWidgetItem(str(result[i][j]))
                         item.setForeground(QBrush(QColor(0, 0, 0)))
