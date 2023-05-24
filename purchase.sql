@@ -111,7 +111,6 @@ on applications for each row
 # create trigger buy_del before delete
 # on buying for each row
 #     begin
-#         delete from documents where bno = old.bno;
 #         delete from applications where ano in (select ano from documents where bno = old.bno);
 #     end //
 
@@ -122,5 +121,3 @@ create procedure anly()
         drop view if exists analyse;
         create view analyse as select gname, count(*) from goods group by gname;
     end //
-
-

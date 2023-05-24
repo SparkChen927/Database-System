@@ -137,9 +137,12 @@ class InterfaceWindow(QMainWindow):
         self.ui.pushButton_appAdd.clicked.connect(self.add_app)
         self.ui.pushButton_appFind.clicked.connect(self.find_app)
 
-        self.ui.pushButton_buy.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
+        self.ui.pushButton_buy.clicked.connect(self.go_to_buy)
+        self.ui.pushButton_buyFind.clicked.connect(self.find_buy)
 
+        self.ui.pushButton_doc.clicked.connect(self.go_to_doc)
         self.ui.pushButton_doc.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
+        self.ui.pushButton_anlyFind.clicked.connect(self.find_doc)
 
         self.ui.pushButton_anly.clicked.connect(self.go_to_anly)
         self.ui.pushButton_docFind.clicked.connect(self.find_anly)
@@ -430,25 +433,23 @@ class InterfaceWindow(QMainWindow):
                         item.setForeground(QBrush(QColor(255, 255, 255)))
                         self.ui.tableWidget_sup.setItem(i, j, item)
             elif row1 > 0 and row2 > 0:
-                for i in result1:
-                    for j in result2:
-                        if i == j:
-                            result2.remove(j)
-                            row2 -= 1
-                self.ui.tableWidget_sup.setRowCount(row1 + row2)
+                result3 = []
+                for i in result2:
+                    if i not in result1:
+                        result3.append(i)
+                self.ui.tableWidget_sup.setRowCount(row1 + len(result3))
                 for i in range(row1):
                     self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
-                    for j in range(0, 2):
+                    for j in range(2):
                         item = QTableWidgetItem(str(result1[i][j]))
                         item.setForeground(QBrush(QColor(255, 255, 255)))
                         self.ui.tableWidget_sup.setItem(i, j, item)
-                for i in range(row1, row1 + row2):
+                for i in range(len(result3)):
                     self.ui.tableWidget_sup.setCellWidget(i, 2, self.button_sup())
-                    for j in range(row2):
-                        for k in range(0, 2):
-                            item = QTableWidgetItem(str(result2[j][k]))
-                            item.setForeground(QBrush(QColor(255, 255, 255)))
-                            self.ui.tableWidget_sup.setItem(i, k, item)
+                    for j in range(2):
+                        item = QTableWidgetItem(str(result3[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_sup.setItem(i + row1, j, item)
             cursor.close()
 
     def update_sup(self):
@@ -663,7 +664,10 @@ class InterfaceWindow(QMainWindow):
             elif row1 > 0 and row2 == 0:
                 self.ui.tableWidget_app.setRowCount(row1)
                 for i in range(row1):
-                    self.ui.tableWidget_app.setCellWidget(i, 6, self.button_sup())
+                    if result1[i][5] == "审核中":
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app())
+                    else:
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app1())
                     for j in range(0, 2):
                         item = QTableWidgetItem(str(result1[i][j]))
                         item.setForeground(QBrush(QColor(255, 255, 255)))
@@ -671,31 +675,362 @@ class InterfaceWindow(QMainWindow):
             elif row1 == 0 and row2 > 0:
                 self.ui.tableWidget_app.setRowCount(row2)
                 for i in range(row2):
-                    self.ui.tableWidget_app.setCellWidget(i, 6, self.button_sup())
+                    if result2[i][5] == "审核中":
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app())
+                    else:
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app1())
                     for j in range(0, 2):
                         item = QTableWidgetItem(str(result2[i][j]))
                         item.setForeground(QBrush(QColor(255, 255, 255)))
                         self.ui.tableWidget_app.setItem(i, j, item)
             elif row1 > 0 and row2 > 0:
-                for i in result1:
-                    for j in result2:
-                        if i == j:
-                            result2.remove(j)
-                            row2 -= 1
-                self.ui.tableWidget_app.setRowCount(row1 + row2)
+                result3 = []
+                for i in result2:
+                    if i not in result1:
+                        result3.append(i)
+                self.ui.tableWidget_app.setRowCount(row1 + len(result3))
                 for i in range(row1):
-                    self.ui.tableWidget_app.setCellWidget(i, 6, self.button_sup())
+                    if result1[i][5] == "审核中":
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app())
+                    else:
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app1())
                     for j in range(0, 2):
                         item = QTableWidgetItem(str(result1[i][j]))
                         item.setForeground(QBrush(QColor(255, 255, 255)))
                         self.ui.tableWidget_app.setItem(i, j, item)
-                for i in range(row1, row1 + row2):
-                    self.ui.tableWidget_app.setCellWidget(i, 6, self.button_sup())
-                    for j in range(row2):
-                        for k in range(0, 2):
-                            item = QTableWidgetItem(str(result2[j][k]))
-                            item.setForeground(QBrush(QColor(255, 255, 255)))
-                            self.ui.tableWidget_app.setItem(i, k, item)
+                for i in range(len(result3)):
+                    if result3[i][5] == "审核中":
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app())
+                    else:
+                        self.ui.tableWidget_app.setCellWidget(i, 6, self.button_app1())
+                    for j in range(2):
+                        item = QTableWidgetItem(str(result3[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_app.setItem(i + row1, j, item)
+            cursor.close()
+
+    def go_to_buy(self):
+        self.ui.stackedWidget.setCurrentIndex(2)
+        self.init_buy()
+
+    def init_buy(self):
+        cursor = db.cursor()
+        sql = "select sname, gname, bname, bdate, bstate " \
+              "from suppliers, goods, buying where bno in " \
+              "(select bno from documents where ano in " \
+              "(select ano from applications where goods.gno = applications.gno " \
+              "and suppliers.sno = goods.sno))"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        result = list(result)
+        if result:
+            row = cursor.rowcount
+            self.ui.tableWidget_buy.setRowCount(row)
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            for i in range(row):
+                if result[i][4] == "验货":
+                    self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy())
+                else:
+                    self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy1())
+                for j in range(5):
+                    if result[i][j] is not None:
+                        item = QTableWidgetItem(str(result[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_buy.setItem(i, j, item)
+        else:
+            self.ui.tableWidget_buy.setRowCount(0)
+        cursor.close()
+
+    def button_buy(self):
+        widget = QtWidgets.QWidget()
+
+        self.passBtn = QtWidgets.QPushButton('收货')
+        self.passBtn.setStyleSheet(''' text-align : center;
+                                                  background-color : Green;
+                                                  height : 30px;
+                                                  border-style: outset;
+                                                  font : 13px  ''')
+        self.passBtn.clicked.connect(self.pass_buy)
+
+        self.unpassBtn = QtWidgets.QPushButton('退货')
+        self.unpassBtn.setStyleSheet(''' text-align : center;
+                                                    background-color : NavajoWhite;
+                                                    height : 30px;
+                                                    border-style: outset;
+                                                    font : 13px; ''')
+        self.unpassBtn.clicked.connect(self.unpass_buy)
+
+        widget = QtWidgets.QWidget()
+        self.deleteBtn = QtWidgets.QPushButton('删除')
+        self.deleteBtn.setStyleSheet(''' text-align : center;
+                                                    background-color : LightCoral;
+                                                    height : 30px;
+                                                    border-style: outset;
+                                                    font : 13px; ''')
+        self.deleteBtn.clicked.connect(self.delete_buy)
+
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(self.passBtn)
+        hLayout.addWidget(self.unpassBtn)
+        hLayout.addWidget(self.deleteBtn)
+        hLayout.setContentsMargins(5, 2, 5, 2)
+        widget.setLayout(hLayout)
+        return widget
+
+    def button_buy1(self):
+        widget = QtWidgets.QWidget()
+        self.deleteBtn = QtWidgets.QPushButton('删除')
+        self.deleteBtn.setStyleSheet(''' text-align : center;
+                                            background-color : LightCoral;
+                                            height : 30px;
+                                            border-style: outset;
+                                            font : 13px; ''')
+        self.deleteBtn.clicked.connect(self.delete_buy)
+
+        hLayout = QtWidgets.QHBoxLayout()
+        hLayout.addWidget(self.deleteBtn)
+        hLayout.setContentsMargins(5, 2, 5, 2)
+        widget.setLayout(hLayout)
+        return widget
+
+    def pass_buy(self):
+        button = self.sender()
+        if button:
+            row = self.ui.tableWidget_buy.indexAt(button.parent().pos()).row()
+            text1 = self.ui.tableWidget_buy.item(row, 0).text()
+            text2 = self.ui.tableWidget_buy.item(row, 1).text()
+            cursor = db.cursor()
+            sql = "update buying set bstate = '收货' " \
+                  "where bno in (select bno from documents " \
+                  "where ano in (select ano from applications " \
+                  "where gno in (select gno from goods where gname = '%s') " \
+                  "and gno in (select gno from goods where sno in (" \
+                  "select sno from suppliers where sname = '%s'))))" % (text2, text1)
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
+            self.init_buy()
+
+    def unpass_buy(self):
+        button = self.sender()
+        if button:
+            row = self.ui.tableWidget_buy.indexAt(button.parent().pos()).row()
+            text1 = self.ui.tableWidget_buy.item(row, 0).text()
+            text2 = self.ui.tableWidget_buy.item(row, 1).text()
+            cursor = db.cursor()
+            sql = "update buying set bstate = '退货' " \
+                  "where bno in (select bno from documents " \
+                  "where ano in (select ano from applications " \
+                  "where gno in (select gno from goods where gname = '%s') " \
+                  "and gno in (select gno from goods where sno in (" \
+                  "select sno from suppliers where sname = '%s'))))" % (text2, text1)
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
+            self.init_buy()
+
+    def delete_buy(self):
+        button = self.sender()
+        if button:
+            row = self.ui.tableWidget_buy.indexAt(button.parent().pos()).row()
+            text1 = self.ui.tableWidget_buy.item(row, 0).text()
+            text2 = self.ui.tableWidget_buy.item(row, 1).text()
+            cursor = db.cursor()
+            sql = "SET foreign_key_checks = 0"
+            cursor.execute(sql)
+            sql = "delete from buying " \
+                  "where bno in (select bno from documents " \
+                  "where ano in (select ano from applications " \
+                  "where gno in (select gno from goods where gname = '%s') " \
+                  "and gno in (select gno from goods where sno in (" \
+                  "select sno from suppliers where sname = '%s'))))" % (text2, text1)
+            cursor.execute(sql)
+            sql = "delete from applications where gno in " \
+                  "(select gno from goods where gname = '%s') " \
+                  "and gno in (select gno from goods where sno in " \
+                  "(select sno from suppliers where sname = '%s'))" % (text2, text1)
+            cursor.execute(sql)
+            sql = "SET foreign_key_checks = 1"
+            cursor.execute(sql)
+            db.commit()
+            cursor.close()
+        self.init_buy()
+
+    def find_buy(self):
+        buy_index = self.ui.lineEdit_buy.text()
+        if buy_index == "":
+            self.ui.tableWidget_buy.setRowCount(0)
+        else:
+            sql = "select sname, gname, bname, bdate, bstate " \
+              "from suppliers, goods, buying where bno in " \
+              "(select bno from documents where ano in " \
+              "(select ano from applications where goods.gno = applications.gno " \
+              "and suppliers.sno = goods.sno)) and sname like '%%%s%%'" % buy_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result1 = cursor.fetchall()
+            row1 = cursor.rowcount
+            result1 = list(result1)
+            if result1:
+                for i in range(len(result1)):
+                    result1[i] = list(result1[i])
+            sql = "select sname, gname, bname, bdate, bstate " \
+                  "from suppliers, goods, buying where bno in " \
+                  "(select bno from documents where ano in " \
+                  "(select ano from applications where goods.gno = applications.gno " \
+                  "and suppliers.sno = goods.sno)) and gname like '%%%s%%'" % buy_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result2 = cursor.fetchall()
+            row2 = cursor.rowcount
+            result2 = list(result2)
+            if result2:
+                for i in range(len(result2)):
+                    result2[i] = list(result2[i])
+            if row1 + row2 == 0:
+                self.ui.tableWidget_buy.setRowCount(0)
+            elif row1 > 0 and row2 == 0:
+                self.ui.tableWidget_buy.setRowCount(row1)
+                for i in range(row1):
+                    if result1[i][4] == "验货":
+                        self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy())
+                    else:
+                        self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy1())
+                    for j in range(0, 2):
+                        item = QTableWidgetItem(str(result1[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_buy.setItem(i, j, item)
+            elif row1 == 0 and row2 > 0:
+                self.ui.tableWidget_buy.setRowCount(row2)
+                for i in range(row2):
+                    if result2[i][4] == "验货":
+                        self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy())
+                    else:
+                        self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy1())
+                    for j in range(0, 2):
+                        item = QTableWidgetItem(str(result2[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_buy.setItem(i, j, item)
+            elif row1 > 0 and row2 > 0:
+                result3 = []
+                for i in result2:
+                    if i not in result1:
+                        result3.append(i)
+                self.ui.tableWidget_buy.setRowCount(row1 + len(result3))
+                for i in range(row1):
+                    if result1[i][4] == "验货":
+                        self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy())
+                    else:
+                        self.ui.tableWidget_buy.setCellWidget(i, 5, self.button_buy1())
+                    for j in range(0, 2):
+                        item = QTableWidgetItem(str(result1[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_buy.setItem(i, j, item)
+                for i in range(len(result3)):
+                    if result3[i][4] == "验货":
+                        self.ui.tableWidget_buy.setCellWidget(i + row1, 5, self.button_buy())
+                    else:
+                        self.ui.tableWidget_buy.setCellWidget(i + row1, 5, self.button_buy1())
+                    for j in range(2):
+                        item = QTableWidgetItem(str(result3[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_buy.setItem(i + row1, j, item)
+            cursor.close()
+
+    def go_to_doc(self):
+        self.init_doc()
+
+    def init_doc(self):
+        cursor = db.cursor()
+        sql = "select sname, gname, quantity, pname, bname " \
+              "from suppliers, goods, applications, buying,documents " \
+              "where documents.ano in (select ano from applications " \
+              "where goods.gno = applications.gno and suppliers.sno = goods.sno) " \
+              "and documents.bno = buying.bno and documents.ano = applications.ano"
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        result = list(result)
+        if result:
+            row = cursor.rowcount
+            self.ui.tableWidget_anly.setRowCount(row)
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            for i in range(row):
+                for j in range(5):
+                    if result[i][j] is not None:
+                        item = QTableWidgetItem(str(result[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_anly.setItem(i, j, item)
+        else:
+            self.ui.tableWidget_anly.setRowCount(0)
+        cursor.close()
+
+    def find_doc(self):
+        doc_index = self.ui.lineEdit_anly.text()
+        if doc_index == "":
+            self.ui.tableWidget_anly.setRowCount(0)
+        else:
+            sql = "select sname, gname, quantity, pname, bname " \
+              "from suppliers, goods, applications, buying,documents " \
+              "where documents.ano in (select ano from applications " \
+              "where goods.gno = applications.gno and suppliers.sno = goods.sno) " \
+              "and documents.bno = buying.bno and documents.ano = applications.ano " \
+                  "and sname like '%%%s%%'" % doc_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result1 = cursor.fetchall()
+            row1 = cursor.rowcount
+            result1 = list(result1)
+            if result1:
+                for i in range(len(result1)):
+                    result1[i] = list(result1[i])
+            sql = "select sname, gname, quantity, pname, bname " \
+                  "from suppliers, goods, applications, buying,documents " \
+                  "where documents.ano in (select ano from applications " \
+                  "where goods.gno = applications.gno and suppliers.sno = goods.sno) " \
+                  "and documents.bno = buying.bno and documents.ano = applications.ano " \
+                  "and gname like '%%%s%%'" % doc_index
+            cursor = db.cursor()
+            cursor.execute(sql)
+            result2 = cursor.fetchall()
+            row2 = cursor.rowcount
+            result2 = list(result2)
+            if result2:
+                for i in range(len(result2)):
+                    result2[i] = list(result2[i])
+            if row1 + row2 == 0:
+                self.ui.tableWidget_anly.setRowCount(0)
+            elif row1 > 0 and row2 == 0:
+                self.ui.tableWidget_anly.setRowCount(row1)
+                for i in range(row1):
+                    for j in range(5):
+                        item = QTableWidgetItem(str(result1[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_anly.setItem(i, j, item)
+            elif row1 == 0 and row2 > 0:
+                self.ui.tableWidget_anly.setRowCount(row2)
+                for i in range(row2):
+                    for j in range(5):
+                        item = QTableWidgetItem(str(result2[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_anly.setItem(i, j, item)
+            elif row1 > 0 and row2 > 0:
+                result3 = []
+                for i in result2:
+                    if i not in result1:
+                        result3.append(i)
+                self.ui.tableWidget_anly.setRowCount(row1 + len(result3))
+                for i in range(row1):
+                    for j in range(5):
+                        item = QTableWidgetItem(str(result1[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_anly.setItem(i, j, item)
+                for i in range(len(result3)):
+                    for j in range(2):
+                        item = QTableWidgetItem(str(result3[i][j]))
+                        item.setForeground(QBrush(QColor(255, 255, 255)))
+                        self.ui.tableWidget_anly.setItem(i + row1, j, item)
             cursor.close()
 
     def init_anly(self):
