@@ -1,8 +1,8 @@
-from PyQt5.QtGui import QFont, QBrush, QColor
+from PyQt5.QtGui import QBrush, QColor
 from InterfaceUi import *
 from LoginUi import *
 from UpdateUi import *
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableWidgetItem, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QTableWidgetItem
 import sys
 import pymysql
 
@@ -30,11 +30,11 @@ def gname_f(str):
     return gname
 
 
-gno = ""
+gno_g = ""
 def gno_f(str):
-    global gno
-    gno = str
-    return gno
+    global gno_g
+    gno_g = str
+    return gno_g
 
 
 sname = ""
@@ -219,8 +219,8 @@ class InterfaceWindow(QMainWindow):
     def update_edit(self):
         button = self.sender()
         if button:
-            row = self.ui.tableWidget_sup.indexAt(button.parent().pos()).row()
-            text = self.ui.tableWidget_sup.item(row, 0).text()
+            row = self.ui.tableWidget_edit.indexAt(button.parent().pos()).row()
+            text = self.ui.tableWidget_edit.item(row, 0).text()
             sname_f(text)
             coo(5)
             UpdateDlg().exec_()
@@ -463,14 +463,13 @@ class InterfaceWindow(QMainWindow):
                   "(select sno from suppliers where sname = '%s')" % (text2, text1)
             cursor.execute(sql)
             result = cursor.fetchall()
-            if result is not None:
-                result = list(result)
-                for i in range(len(result)):
-                    result[i] = list(result[i])
-                gno_f(result[0][0])
-                coo(0)
-                UpdateDlg().exec_()
-                self.init_sup()
+            result = list(result)
+            for i in range(len(result)):
+                result[i] = list(result[i])
+            gno_f(result[0][0])
+            coo(0)
+            UpdateDlg().exec_()
+            self.init_sup()
             cursor.close()
 
     def delete_sup(self):
@@ -1275,9 +1274,9 @@ class UpdateDlg(QtWidgets.QDialog):
                 for i in range(len(result)):
                     result[i] = list(result[i])
                 sno = result[0][0]
-                sql1 = "update goods set gname = '%s' where gno = '%s'" % (gname, gno)
-                sql2 = "update goods set price = %s where gno = %s" % (price, gno)
-                sql3 = "update goods set sno = '%s' where gno = '%s'" % (sno, gno)
+                sql1 = "update goods set gname = '%s' where gno = '%s'" % (gname, gno_g)
+                sql2 = "update goods set price = %s where gno = %s" % (price, gno_g)
+                sql3 = "update goods set sno = '%s' where gno = '%s'" % (sno, gno_g)
                 cursor.execute(sql1)
                 cursor.execute(sql2)
                 cursor.execute(sql3)
