@@ -69,7 +69,10 @@ class LoginWindow(QMainWindow):
         account = self.ui.lineEdit_u.text()
         password = self.ui.lineEdit_p.text()
         sql = "select * from users where username = '%s' and password = '%s'" % (account, password)
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         if cursor.fetchone() is None:
             QMessageBox.critical(self, "错误", "账号或密码错误")
         else:
@@ -84,10 +87,16 @@ class LoginWindow(QMainWindow):
         account = self.ui.lineEdit_u2.text()
         password = self.ui.lineEdit_p2.text()
         sql = "select * from users where username = '%s'" % account
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         if cursor.fetchone() is None:
             sql = "insert into users values ('%s', '%s')" % (account, password)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             QMessageBox.information(self, "消息", "注册成功")
             self.ui.stackedWidget.setCurrentIndex(0)
             self.ui.lineEdit_u.setText(account)
@@ -165,7 +174,10 @@ class InterfaceWindow(QMainWindow):
     def init_edit(self):
         cursor = db.cursor()
         sql = "select sname, type, address, settlement, credit from suppliers"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if result:
@@ -234,7 +246,10 @@ class InterfaceWindow(QMainWindow):
             sql = "select sname, type, address, settlement, credit " \
                   "from suppliers where sname like '%%%s%%'" % edit_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result = cursor.fetchall()
             if result is not None:
                 row = cursor.rowcount
@@ -258,7 +273,10 @@ class InterfaceWindow(QMainWindow):
             text = self.ui.tableWidget_edit.item(row, 0).text()
             cursor = db.cursor()
             sql = "delete from suppliers where sname = '%s'" % text
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             cursor.close()
             self.init_edit()
@@ -303,7 +321,10 @@ class InterfaceWindow(QMainWindow):
         cursor = db.cursor()
         sql = "select sname, gname from goods, suppliers " \
               "where suppliers.sno = goods.sno"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if result:
@@ -368,14 +389,20 @@ class InterfaceWindow(QMainWindow):
             cursor = db.cursor()
             sql = "select * from goods where gname = '%s' and sno in " \
                   "(select sno from suppliers where sname = '%s')" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result = cursor.fetchall()
             if result is not None:
                 result = list(result)
                 for i in range(len(result)):
                     result[i] = list(result[i])
                 sql = "select sname from suppliers where sno = '%s'" % result[0][3]
-                cursor.execute(sql)
+                try:
+                    cursor.execute(sql)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
                 res = cursor.fetchall()
                 res = list(res)
                 for i in range(len(res)):
@@ -397,7 +424,10 @@ class InterfaceWindow(QMainWindow):
             sql = "select sname, gname from goods, suppliers where suppliers.sno = goods.sno " \
                   "and suppliers.sname like '%%%s%%'" % sup_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result1 = cursor.fetchall()
             row1 = cursor.rowcount
             result1 = list(result1)
@@ -407,7 +437,10 @@ class InterfaceWindow(QMainWindow):
             sql = "select sname, gname from goods, suppliers where suppliers.sno = goods.sno " \
                   "and goods.gname like '%%%s%%'" % sup_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result2 = cursor.fetchall()
             row2 = cursor.rowcount
             result2 = list(result2)
@@ -461,7 +494,10 @@ class InterfaceWindow(QMainWindow):
             cursor = db.cursor()
             sql = "select gno from goods where gname = '%s' and sno in " \
                   "(select sno from suppliers where sname = '%s')" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result = cursor.fetchall()
             result = list(result)
             for i in range(len(result)):
@@ -481,7 +517,10 @@ class InterfaceWindow(QMainWindow):
             cursor = db.cursor()
             sql = "delete from goods where gname = '%s' and sno in " \
                   "(select sno from suppliers where sname = '%s')" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             cursor.close()
             self.init_sup()
@@ -495,7 +534,10 @@ class InterfaceWindow(QMainWindow):
         sql = "select sname, gname, quantity, pname, adate, astate " \
               "from suppliers, goods, applications " \
               "where goods.gno = applications.gno and suppliers.sno = goods.sno"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if result:
@@ -580,7 +622,10 @@ class InterfaceWindow(QMainWindow):
                   "(select gno from goods where gname = '%s') " \
                   "and gno in (select gno from goods where sno in " \
                   "(select sno from suppliers where sname = '%s'))" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result = cursor.fetchall()
             result = list(result)
             if result:
@@ -603,7 +648,10 @@ class InterfaceWindow(QMainWindow):
                   "(select gno from goods where gname = '%s') " \
                   "and gno in (select gno from goods where sno in " \
                   "(select sno from suppliers where sname = '%s'))" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             cursor.close()
             self.init_app()
@@ -619,7 +667,10 @@ class InterfaceWindow(QMainWindow):
                   "(select gno from goods where gname = '%s') " \
                   "and gno in (select gno from goods where sno in " \
                   "(select sno from suppliers where sname = '%s'))" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             cursor.close()
         self.init_app()
@@ -639,7 +690,10 @@ class InterfaceWindow(QMainWindow):
                   "where goods.gno = applications.gno and suppliers.sno = goods.sno " \
                   "and suppliers.sname like '%%%s%%'" % app_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result1 = cursor.fetchall()
             row1 = cursor.rowcount
             result1 = list(result1)
@@ -651,7 +705,10 @@ class InterfaceWindow(QMainWindow):
                   "where goods.gno = applications.gno and suppliers.sno = goods.sno " \
                   "and goods.gname like '%%%s%%'" % app_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result2 = cursor.fetchall()
             row2 = cursor.rowcount
             result2 = list(result2)
@@ -719,7 +776,10 @@ class InterfaceWindow(QMainWindow):
               "(select bno from documents where ano in " \
               "(select ano from applications where goods.gno = applications.gno " \
               "and suppliers.sno = goods.sno))"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if result:
@@ -806,7 +866,10 @@ class InterfaceWindow(QMainWindow):
                   "where gno in (select gno from goods where gname = '%s') " \
                   "and gno in (select gno from goods where sno in (" \
                   "select sno from suppliers where sname = '%s'))))" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             cursor.close()
             self.init_buy()
@@ -824,7 +887,10 @@ class InterfaceWindow(QMainWindow):
                   "where gno in (select gno from goods where gname = '%s') " \
                   "and gno in (select gno from goods where sno in (" \
                   "select sno from suppliers where sname = '%s'))))" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             cursor.close()
             self.init_buy()
@@ -837,21 +903,33 @@ class InterfaceWindow(QMainWindow):
             text2 = self.ui.tableWidget_buy.item(row, 1).text()
             cursor = db.cursor()
             sql = "SET foreign_key_checks = 0"
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             sql = "delete from buying " \
                   "where bno in (select bno from documents " \
                   "where ano in (select ano from applications " \
                   "where gno in (select gno from goods where gname = '%s') " \
                   "and gno in (select gno from goods where sno in (" \
                   "select sno from suppliers where sname = '%s'))))" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             sql = "delete from applications where gno in " \
                   "(select gno from goods where gname = '%s') " \
                   "and gno in (select gno from goods where sno in " \
                   "(select sno from suppliers where sname = '%s'))" % (text2, text1)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             sql = "SET foreign_key_checks = 1"
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             cursor.close()
         self.init_buy()
@@ -867,7 +945,10 @@ class InterfaceWindow(QMainWindow):
               "(select ano from applications where goods.gno = applications.gno " \
               "and suppliers.sno = goods.sno)) and sname like '%%%s%%'" % buy_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result1 = cursor.fetchall()
             row1 = cursor.rowcount
             result1 = list(result1)
@@ -880,7 +961,10 @@ class InterfaceWindow(QMainWindow):
                   "(select ano from applications where goods.gno = applications.gno " \
                   "and suppliers.sno = goods.sno)) and gname like '%%%s%%'" % buy_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result2 = cursor.fetchall()
             row2 = cursor.rowcount
             result2 = list(result2)
@@ -947,7 +1031,10 @@ class InterfaceWindow(QMainWindow):
               "where documents.ano in (select ano from applications " \
               "where goods.gno = applications.gno and suppliers.sno = goods.sno) " \
               "and documents.bno = buying.bno and documents.ano = applications.ano"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if result:
@@ -977,7 +1064,10 @@ class InterfaceWindow(QMainWindow):
               "and documents.bno = buying.bno and documents.ano = applications.ano " \
                   "and sname like '%%%s%%'" % doc_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result1 = cursor.fetchall()
             row1 = cursor.rowcount
             result1 = list(result1)
@@ -991,7 +1081,10 @@ class InterfaceWindow(QMainWindow):
                   "and documents.bno = buying.bno and documents.ano = applications.ano " \
                   "and gname like '%%%s%%'" % doc_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result2 = cursor.fetchall()
             row2 = cursor.rowcount
             result2 = list(result2)
@@ -1035,7 +1128,10 @@ class InterfaceWindow(QMainWindow):
     def init_anly(self):
         cursor = db.cursor()
         sql = "select * from analyse"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         if result is not None:
             row = cursor.rowcount
@@ -1083,7 +1179,10 @@ class InterfaceWindow(QMainWindow):
         else:
             sql = "select * from analyse where gname like '%%%s%%'" % anly_index
             cursor = db.cursor()
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result = cursor.fetchall()
             if result is not None:
                 row = cursor.rowcount
@@ -1139,7 +1238,10 @@ class UpdateDlg(QtWidgets.QDialog):
         stl = self.ui.comboBox_stl.currentText()
         crd = self.ui.comboBox_crd.currentText()
         sql = "select * from suppliers"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         no = 0
         sname_index = True
@@ -1161,7 +1263,10 @@ class UpdateDlg(QtWidgets.QDialog):
             else:
                 str_no = str(no)
             sql = "insert into suppliers values ('%s', '%s', '%s', '%s', '%s', '%s')" % (str_no, sname, type, addr, stl, crd)
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             QMessageBox.information(self, "消息", "添加成功")
             self.close()
@@ -1175,7 +1280,10 @@ class UpdateDlg(QtWidgets.QDialog):
         stl = self.ui.comboBox_stl2.currentText()
         crd = self.ui.comboBox_crd2.currentText()
         sql = "select * from suppliers"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         no = 0
         sname_index = True
@@ -1196,11 +1304,26 @@ class UpdateDlg(QtWidgets.QDialog):
             sql3 = "update suppliers set address = '%s' where sname = '%s'" % (addr, sname_i)
             sql4 = "update suppliers set settlement = '%s' where sname = '%s'" % (stl, sname_i)
             sql5 = "update suppliers set credit = '%s' where sname = '%s'" % (crd, sname_i)
-            cursor.execute(sql1)
-            cursor.execute(sql2)
-            cursor.execute(sql3)
-            cursor.execute(sql4)
-            cursor.execute(sql5)
+            try:
+                cursor.execute(sql1)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
+            try:
+                cursor.execute(sql2)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
+            try:
+                cursor.execute(sql3)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
+            try:
+                cursor.execute(sql4)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
+            try:
+                cursor.execute(sql5)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             db.commit()
             QMessageBox.information(self, "消息", "修改成功")
             self.close()
@@ -1212,7 +1335,10 @@ class UpdateDlg(QtWidgets.QDialog):
         price = self.ui.lineEdit_price2.text()
         sname = self.ui.lineEdit_sname2.text()
         sql = "select sno from suppliers where sname = '%s'" % sname
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if not result:
@@ -1222,7 +1348,10 @@ class UpdateDlg(QtWidgets.QDialog):
                 result[i] = list(result[i])
             sno = result[0][0]
             sql = "select gname from goods where sno = '%s'" % sno
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result = cursor.fetchall()
             result = list(result)
             exist_index = True
@@ -1234,7 +1363,10 @@ class UpdateDlg(QtWidgets.QDialog):
                     exist_index = False
             if exist_index:
                 sql = "select * from goods"
-                cursor.execute(sql)
+                try:
+                    cursor.execute(sql)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
                 row = cursor.rowcount
                 result = cursor.fetchall()
                 no = 0
@@ -1250,7 +1382,10 @@ class UpdateDlg(QtWidgets.QDialog):
                 else:
                     str_no = str(no)
                 sql = "insert into goods values ('%s', '%s', %s, '%s')" % (str_no, gname, price, sno)
-                cursor.execute(sql)
+                try:
+                    cursor.execute(sql)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
                 db.commit()
                 QMessageBox.information(self, "消息", "添加成功")
                 self.close()
@@ -1262,7 +1397,10 @@ class UpdateDlg(QtWidgets.QDialog):
         price = self.ui.lineEdit_price.text()
         sname = self.ui.lineEdit_sname.text()
         sql = "select sno from suppliers where sname = '%s'" % sname
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         if result is None:
             QMessageBox.critical(self, "错误", "不存在该供应商")
@@ -1277,9 +1415,18 @@ class UpdateDlg(QtWidgets.QDialog):
                 sql1 = "update goods set gname = '%s' where gno = '%s'" % (gname, gno_g)
                 sql2 = "update goods set price = %s where gno = %s" % (price, gno_g)
                 sql3 = "update goods set sno = '%s' where gno = '%s'" % (sno, gno_g)
-                cursor.execute(sql1)
-                cursor.execute(sql2)
-                cursor.execute(sql3)
+                try:
+                    cursor.execute(sql1)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
+                try:
+                    cursor.execute(sql2)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
+                try:
+                    cursor.execute(sql3)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
                 db.commit()
                 QMessageBox.information(self, "消息", "修改成功")
                 self.close()
@@ -1292,7 +1439,10 @@ class UpdateDlg(QtWidgets.QDialog):
         pname = self.ui.lineEdit_aP.text()
         cursor = db.cursor()
         sql = "select sno from suppliers where sname = '%s'" % sname
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if not result:
@@ -1302,7 +1452,10 @@ class UpdateDlg(QtWidgets.QDialog):
                 result[i] = list(result[i])
             sno = result[0][0]
             sql = "select gname, gno from goods where sno = '%s'" % sno
-            cursor.execute(sql)
+            try:
+                cursor.execute(sql)
+            except Exception as r:
+                QMessageBox.critical(self, "错误", str(r))
             result = cursor.fetchall()
             row = cursor.rowcount
             result = list(result)
@@ -1320,7 +1473,10 @@ class UpdateDlg(QtWidgets.QDialog):
                 QMessageBox.critical(self, "错误", "该供应商不提供该货物")
             if exist_index:
                 sql = "select * from applications"
-                cursor.execute(sql)
+                try:
+                    cursor.execute(sql)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
                 row = cursor.rowcount
                 result = cursor.fetchall()
                 no = 0
@@ -1336,7 +1492,10 @@ class UpdateDlg(QtWidgets.QDialog):
                 else:
                     str_no = str(no)
                 sql = "insert into applications values ('%s', '%s', %s, '%s', default, default)" % (str_no, gn, quan, pname)
-                cursor.execute(sql)
+                try:
+                    cursor.execute(sql)
+                except Exception as r:
+                    QMessageBox.critical(self, "错误", str(r))
                 db.commit()
                 QMessageBox.information(self, "消息", "添加成功")
                 self.close()
@@ -1347,11 +1506,17 @@ class UpdateDlg(QtWidgets.QDialog):
             self.ui.label_goods.setText(gname)
         sql = "call anly()"
         cursor = db.cursor()
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         sql = "select sname, type, credit from suppliers " \
               "where sno in (select sno from goods where gname = '%s')" % gname
         cursor = db.cursor()
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         if result is not None:
             row = cursor.rowcount
@@ -1372,37 +1537,54 @@ class UpdateDlg(QtWidgets.QDialog):
         cursor = db.cursor()
 
         sql = "select bno from buying"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if not result:
             no = "0"
         else:
             result[0] = list(result[0])
-            no = result[0][0]
+            for i in range(len(result)):
+                no = result[i][0]
         str_no = str(int(no) + 1)
         if int(str_no) < 10:
             str_no = "0" + str_no
         sql = "insert into buying values ('%s', default, '%s', default)" % (str_no, pname)
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
 
         sql = "select dno from documents"
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         result = cursor.fetchall()
         result = list(result)
         if not result:
             no = "0"
         else:
             result[0] = list(result[0])
-            no = result[0][0]
+            for i in range(len(result)):
+                no = result[i][0]
         str_no2 = str(int(no) + 1)
         if int(str_no2) < 10:
             str_no2 = "0" + str_no2
         sql = "insert into documents values ('%s', '%s', '%s')" % (str_no2, ano, str_no)
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
 
         sql = "update applications set astate = '已通过' where ano = '%s'" % ano
-        cursor.execute(sql)
+        try:
+            cursor.execute(sql)
+        except Exception as r:
+            QMessageBox.critical(self, "错误", str(r))
         db.commit()
         cursor.close()
         self.close()
